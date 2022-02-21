@@ -96,7 +96,8 @@ export default function Clocks() {
         clocks.map((ck, idx) => (
           <div key={idx} className='
             group relative text-center h-40 rounded-md text-white 
-            bg-sky-500 flex items-center justify-center
+            bg-sky-500 flex items-center justify-center dark:bg-black dark:text-white
+            dark:border-white dark:border-2
           '>
             <div>
               <p>{ ck.city }</p>
@@ -116,9 +117,11 @@ export default function Clocks() {
       {/* add clock */}
       <div
         className='
-          text-center h-40 rounded-md text-black border-2 
+          text-center h-40 rounded-md text-gray-200 border-2 border-gray-200
           hover:border-sky-500 transition-all duration-300 
-          hover:text-sky-500 flex items-center justify-center cursor-pointer
+          hover:text-sky-500 flex items-center justify-center cursor-pointer 
+          dark:text-gray-500 dark:border-gray-500 dark:hover:border-white
+          dark:hover:text-white
         '
         onClick={onAddClocks}
         >
@@ -127,6 +130,7 @@ export default function Clocks() {
         <div className='
             fixed shadow-lg border-2 bg-white text-left
             rounded-md p-2 text-black transition-all duration-600
+            dark:bg-black dark:text-white
           '
           style={ listPosition }>
           <ul>
@@ -135,7 +139,8 @@ export default function Clocks() {
                 <li
                   className='
                     bg-white hover:bg-sky-500 hover:text-white
-                    px-2 transition-all duration-300
+                    px-2 transition-all duration-300 dark:bg-black
+                    dark:hover:bg-white dark:hover:text-black
                   '
                   key={index}
                   onClick={(e) => onChooseCity(e, item)}>

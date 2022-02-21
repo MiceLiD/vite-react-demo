@@ -1,42 +1,36 @@
-import React, { createContext, useState } from 'react'
+import React, { useReducer } from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, NavLink, Route, Routes, useMatch, useLocation } from 'react-router-dom'
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
 
 import Home from './views/home'
-import UseReducer from './views/withReducer'
+import Redux from './views/redux'
 import Clocks from './views/clocks'
 
 import './assets/style/index.less'
 import './assets/style/tailwind.css'
 import logo from './assets/image/logo.svg'
-import { themes, ThemeContext } from './contexts'
+import { Context, reducer, initialState } from './store'
+import { useDarkMod } from './hooks/useDarkMod'
+
+const naviLinks = [
+  { to: '/', name: 'home', elment: <Home /> },
+  { to: '/redux', name: 'Redux', elment: <Redux /> },
+  { to: '/clocks', name: 'Clocks', elment: <Clocks /> },
+  { to: '*', name: '404', elment: <h1 className='text-center text-4xl mt-16'>404 Not Found</h1> }
+]
 
 function App() {
-  const [theme, setTheme] = useState(themes.light)
-  const themeProviderValue = {
-    theme,
-    toggleTheme: () => {
-      setTheme((preTheme) => {
-        return preTheme === themes.light ? themes.dark : themes.light
-      })
-    }
-  }
+  const [state, dispatch] = useReducer(reducer, initialState)
   const onNavLinkStyle = ({ isActive }: { isActive: boolean }) => {
     return isActive ? 'text-sky-300' : ''
   }
-  const naviLinks = [
-    { to: '/', name: 'home', elment: <Home /> },
-    { to: '/useReducer', name: 'useReducer', elment: <UseReducer /> },
-    { to: '/clocks', name: 'Clocks', elment: <Clocks /> },
-    { to: '*', name: '404', elment: <h1 className='text-center text-4xl mt-16'>404 Not Found</h1> }
-  ]
-
+  useDarkMod(dispatch)
   return (
-    <ThemeContext.Provider value={ themeProviderValue }>
+    <Context.Provider value={{ state, dispatch }}>
       <BrowserRouter>
         <div className="flex flex-col h-screen">
           <div className="flex flex-row items-center justify-between p-5 bg-gray-600">
-            <div className='flex flex-row items-center '>
+            <div className='flex flex-row items-center'>
               <img className='h-6' src={logo} alt="" />
               {
                 naviLinks.slice(0, naviLinks.length - 1).map((nl) => {
@@ -47,10 +41,16 @@ function App() {
                   )
                 })
               }
-              <div></div>
+            </div>
+            <div>
+              <button
+                className='bg-white px-5 rounded-md text-black dark:bg-black dark:text-white'
+                onClick={() => dispatch({ type: 'toggle-theme' })}>
+                { state.theme }
+              </button>
             </div>
           </div>
-          <div className="flex-1 p-2">
+          <div className="flex-1 p-2 dark:bg-black dark:text-white">
             {/* style={{ background: `url(${logo}) no-repeat center`, ...theme }} */}
             <Routes>
               {
@@ -64,7 +64,7 @@ function App() {
           </div>
         </div>
       </BrowserRouter>
-    </ThemeContext.Provider>
+    </Context.Provider>
   )
 }
 
