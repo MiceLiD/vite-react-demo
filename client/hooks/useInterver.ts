@@ -1,21 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export default function useInterval(callback: () => void, delay: number) {
-  const savedCallback = useRef<() => void>();
+  // 【mutable】定义一个状态，更新状态不会引起组件更新
+  //  savedCallback 不会跟随界面重新渲染而重置
+  const savedCallback = useRef<() => void>()
 
-  // 保存新回调
+  // 【watch】任意state更新都会触发
+  //  每次更新 callback, 保证cb内部引用的state最新
   useEffect(() => {
     savedCallback.current = callback;
-  });
+  })
 
-  // 建立 interval
+  // 【created or mounted】
+  //  只执行一次, 注册interval callback
   useEffect(() => {
     function tick() {
-      savedCallback.current && savedCallback.current();
+      savedCallback.current && savedCallback.current()
     }
     if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
+      const id = setInterval(tick, delay)
+      // 组件卸载时执行此回调，清除定时器
+      return () => {
+        clearInterval(id)
+      }
     }
-  }, [delay]);
+  }, [])
 }

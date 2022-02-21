@@ -4,7 +4,7 @@ import { BrowserRouter, NavLink, Route, Routes, useMatch, useLocation } from 're
 
 import Home from './views/home'
 import UseReducer from './views/withReducer'
-import Clock from './views/clock'
+import Clocks from './views/clocks'
 
 import './assets/style/index.less'
 import './assets/style/tailwind.css'
@@ -27,7 +27,7 @@ function App() {
   const naviLinks = [
     { to: '/', name: 'home', elment: <Home /> },
     { to: '/useReducer', name: 'useReducer', elment: <UseReducer /> },
-    { to: '/clock', name: 'Clock', elment: <Clock /> },
+    { to: '/clocks', name: 'Clocks', elment: <Clocks /> },
     { to: '*', name: '404', elment: <h1 className='text-center text-4xl mt-16'>404 Not Found</h1> }
   ]
 

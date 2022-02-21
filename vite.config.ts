@@ -5,8 +5,10 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [reactRefresh()],
-  alias: {
-    '@': path.join(__dirname, './client')
+  resolve: {
+    alias: {
+      '@': path.join(__dirname, './client')
+    }
   },
   build: {
     outDir: 'docs',
