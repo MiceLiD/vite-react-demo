@@ -1,6 +1,6 @@
 {
-  "name": "vite-app",
-  "version": "0.0.0",
+  "name": "vite-react-demo",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
