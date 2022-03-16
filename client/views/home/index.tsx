@@ -1,11 +1,9 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
-export default function Home() {
-  const count = useRef<number>(0)
+export default function MapBox() {
   return (
-    <>
-      <div>{count.current}</div>
-      <button onClick={() => { count.current += 1; console.log(count) }}>click</button>
-    </>
+    <div>
+      home
+    </div>
   )
 }

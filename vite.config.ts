@@ -5,16 +5,10 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [reactRefresh()],
+  base: '/vite-react-demo',
   resolve: {
     alias: {
       '@': path.join(__dirname, './client')
-    }
-  },
-  build: {
-    outDir: 'docs',
-    assetsDir: 'statics',
-    rollupOptions: {
-      input: path.resolve(__dirname, 'client/main.tsx')
     }
   }
 })
