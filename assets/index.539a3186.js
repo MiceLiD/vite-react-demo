@@ -1,0 +1,1 @@
+import{a as r}from"./vendor.edfffce8.js";function f(o){const n=o.length,e=Array(n).fill(1);let a=1;for(let t=1;t<n;t++){for(let l=0;l<t;l++)o[l]<o[t]&&(e[t]=Math.max(e[t],e[l]+1));a=Math.max(a,e[t])}return a}function i(){return console.log(f([10,9,2,5,3,7,101,18])),r.createElement("div",null,"home")}export{i as default};
