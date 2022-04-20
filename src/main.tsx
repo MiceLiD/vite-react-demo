@@ -1,12 +1,6 @@
-import React, { useReducer } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useReducer, lazy, Suspense, Component, createElement } from 'react'
+import ReactDOM, { render } from 'react-dom'
 import { HashRouter as BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
-
-import Home from './views/home'
-import ThreeJs from './views/threejs'
-import Redux from './views/redux'
-import Clocks from './views/clocks'
-import MapBox from './views/mapBox'
 
 import './assets/style/index.less'
 import './assets/style/tailwind.css'
@@ -14,13 +8,20 @@ import logo from './assets/image/logo.svg'
 import { Context, reducer, initialState } from './store'
 import { useDarkMod } from './hooks/useDarkMod'
 
+const Home = lazy(() => import('./views/home'))
+const Redux = lazy(() => import('./views/redux'))
+const ThreeJs = lazy(() => import('./views/threejs'))
+const Clocks = lazy(() => import('./views/clocks'))
+const MapBox = lazy(() => import('./views/mapBox'))
+const C404 = lazy(() => import('./views/404'))
+
 const naviLinks = [
-  { to: '/', name: 'home', elment: <Home /> },
-  { to: '/redux', name: 'Redux', elment: <Redux /> },
-  { to: '/threejs', name: 'ThreeJs', elment: <ThreeJs /> },
-  { to: '/clocks', name: 'Clocks', elment: <Clocks /> },
-  { to: '/mapbox', name: 'MapBox', elment: <MapBox /> },
-  { to: '*', name: '404', elment: <h1 className='text-center text-4xl mt-16'>404 Not Found</h1> }
+  { to: '/', name: 'home', component: Home },
+  { to: '/redux', name: 'Redux', component: Redux },
+  { to: '/threejs', name: 'ThreeJs', component: ThreeJs },
+  { to: '/clocks', name: 'Clocks', component: Clocks },
+  { to: '/mapbox', name: 'MapBox', component: MapBox },
+  { to: '*', name: '404', component: C404 }
 ]
 
 function App() {
@@ -61,7 +62,11 @@ function App() {
               {
                 naviLinks.map((nl) => {
                   return (
-                    <Route key={nl.to} path={nl.to} element={ nl.elment } />
+                    <Route key={nl.to} path={nl.to} element={
+                      <Suspense fallback={<>...</>}>
+                        <nl.component />
+                      </Suspense>
+                    }/>
                   )
                 })
               }
@@ -79,3 +84,4 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 )
+

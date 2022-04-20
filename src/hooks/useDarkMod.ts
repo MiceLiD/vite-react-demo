@@ -1,4 +1,4 @@
-import { TDispatch } from "client/store"
+import { TDispatch } from "@/store"
 import { useEffect } from "react"
 
 export function useDarkMod(dispatch: TDispatch) {
